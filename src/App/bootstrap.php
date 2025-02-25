@@ -1,0 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+#use Framework\App;
+
+require __DIR__ . "/../../vendor/autoload.php";
+
+
+
+$app = new Framework\App();
+
+return $app;
