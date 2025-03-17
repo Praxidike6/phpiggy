@@ -19,6 +19,10 @@ class FlashMiddleware implements MiddlewareInterface
 
         # clear errors when screen refreshed
         unset($_SESSION['errors']);
+
+        # expose any submitted form data to templates that need them 
+        $this->view->addGlobal('oldFormData', $_SESSION['oldFormData'] ?? []);
+        unset($_SESSION['oldFormData']);
         $next();
     }
 }

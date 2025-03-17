@@ -23,9 +23,16 @@ class Validator
 
             foreach ($rules as $rule)
             {
+                $ruleParams = [];
+                if (str_contains($rule, ':'))
+                {
+                    [$rule, $ruleParams] = explode(':', $rule);
+                    $ruleParams = explode(',', $ruleParams);
+                    #dd($ruleParams);
+                }
                 $ruleValidator = $this->rules[$rule];
 
-                if ($ruleValidator->validate($formData, $fieldName, []))
+                if ($ruleValidator->validate($formData, $fieldName, $ruleParams))
                 {
                     #no error in field
                     continue;
@@ -34,7 +41,7 @@ class Validator
                 $errors[$fieldName][] = $ruleValidator->getMessage(
                     $formData,
                     $fieldName,
-                    []
+                    $ruleParams
                 );
             }
         }
