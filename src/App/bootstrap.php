@@ -2,13 +2,18 @@
 
 declare(strict_types=1);
 
+require __DIR__ . "/../../vendor/autoload.php";
+
 use Framework\App;
 use App\Config\Paths;
+use Dotenv\Dotenv;
 
 use function App\Config\{registerRoutes, registerMiddleware};
 
-require __DIR__ . "/../../vendor/autoload.php";
 
+#locate & load environment variables from .env file
+$dotenv = Dotenv::createImmutable(Paths::ROOT);
+$dotenv->load();
 
 
 
