@@ -12,11 +12,14 @@ class Router
     public function add(string $method, string $path, array $controller)
     {
         $path = $this->normalizePath($path);
+        $regexPath = preg_replace('#{[^/]+}#', '([^/]+)', $path);
+
         $this->routes[] = [
             'path' => $path,
             'method' => strtoupper($method),
             'controller' => $controller,
-            'middlewares' => []
+            'middlewares' => [],
+            'regexPath' => $regexPath
         ];
     }
     # deal with the different ways a path can be entered using /
@@ -36,7 +39,7 @@ class Router
         foreach ($this->routes as $route)
         {
             # ^ starts with, $ ends with
-            if (!preg_match("#^{$route['path']}$#", $path) || $route['method'] !== $method)
+            if (!preg_match("#^{$route['regexPath']}$#", $path) || $route['method'] !== $method)
             {
                 continue;
             }
